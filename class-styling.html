@@ -1,0 +1,32 @@
+ <style>
+    .primary {
+        color: blue;
+    }
+    #tab1 {
+        background-color: yellow;
+    }
+ </style>
+
+<div id="app">
+    <h1>클래스 바인딩</h1>
+    <!--v-bind:class="key 이름" -> :class 로 보통 생략-->
+    <div :class="classBind">데이터를 바인딩해보자!</div>
+    <!--:id로 생략-->
+    <h1>아이디 바인딩</h1>
+    <div :id="idBind" :style="idStyle">데이터를 바인딩해보자!</div>
+</div>
+
+ <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+ <script>
+    Vue.createApp({
+        data() {
+            return {
+                classBind: "primary",
+                idBind: "tab1",
+                idStyle: {
+                    color: 'red'
+                }
+            }
+        }
+    }).mount('#app')
+ </script>
