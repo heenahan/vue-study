@@ -1,0 +1,23 @@
+<div id="app">
+    <!-- v-bind:하위 컴포넌트의 props="상위 컴포넌트 데이터 이름"-->
+    <app-header v-bind:title="appTitle"></app-header>
+ </div>
+
+ <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+ <script>
+    Vue.createApp({
+        data() {
+            // 상위 컴포넌트
+            return {
+                appTitle: 'props 넘기기'
+            }
+        },
+        components: {
+            'app-header': {
+                template: '<h1>{{ title }}</h1>',
+                // 하위 컴포넌트에서 상위 컴포넌트의 props를 받아옴
+                props: ['title']
+            }
+        }
+    }).mount('#app')
+ </script>

@@ -1,0 +1,44 @@
+<div id="app">
+    <app-header v-bind:app-title="message"></app-header>
+    <app-contents v-on:login="recieve"></app-contents>
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+    const appHeaders = {
+        props: ['appTitle'],
+        template: '<h1>{{ appTitle }}<h1>'
+    }
+    const appContents = {
+        template: `
+            <p>
+                <button v-on:click="sendEvent">로그인</button>
+            </p>
+        `,
+        methods: {
+            sendEvent() {
+                this.$emit('login')
+            }
+        }
+    }
+    // 같은 계층의 컴포넌트끼리 통신하려면
+    // 루트 컴포넌트에서 이벤트를 받은 뒤
+    // 다시 하위 컴포넌트로 Props를 전달해야 한다.
+    Vue.createApp({
+        data() {
+            return {
+                message: '로그인 해주세요.'
+            }
+        },
+        methods: {
+            recieve() {
+                console.log('이벤트 발생!')
+                this.message = '로그인 되었습니다.'
+            }
+        },
+        components: {
+            'app-header': appHeaders,
+            'app-contents': appContents
+        }
+    }).mount('#app')
+</script>
