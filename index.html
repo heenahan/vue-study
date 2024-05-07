@@ -1,13 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
-</html>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<div id="app">
+    {{message}}
+</div>
+
+<script>
+    // vue instance 생성
+    Vue.createApp({
+        data() { // 컴포넌트 옵션 속성
+            return {
+                message : 'hello vue!'
+            }
+        }
+    }).mount('#app')
+</script>

@@ -1,0 +1,25 @@
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<div id="app">
+    <p>{{count}}</p>
+    <!--v-on은 디렉티브, 디렉티브를 이용해서 버튼에 클릭이 일어났을 때 addCount를 실행-->
+    <button v-on:click="addCount">+</button>
+</div>
+
+<script>
+    // vue instance 생성
+    Vue.createApp({
+        data: function() { // 1급 객체
+            return {
+                count : 0
+            }
+        },
+        methods: { // 하나의 함수
+            addCount: function() {
+                // this는 createApp의 값을 가리킨다.
+                // 리엑티비티가 주입된 값을 접근한다.
+                this.count++; 
+            }
+        },
+    }).mount('#app')
+</script>
