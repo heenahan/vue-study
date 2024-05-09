@@ -8,7 +8,8 @@
 import TodoHeader from './components/TodoHeader.vue'
 import TodoInput from './components/TodoInput.vue'
 import TodoList from './components/TodoList.vue'
-import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
+import { useTodo } from './hooks/useTodo.js'
+import { onBeforeMount, onMounted, onUnmounted } from 'vue'
 
 export default {
   components: {
@@ -16,32 +17,25 @@ export default {
     TodoInput,
     TodoList
   },
+  data() {
+    return {
+      appTitle: 'TODO APP '
+    }
+  },
   // composition 스타일로 코드를 작성하기 위해 선언 setup()
   setup() {
-    // data
-    // ref : 뷰의 반응성을 주입해주는 API
-    // 특징 1. 반드시 반환
-    // 득징 2. .value로 접근
-    const todoItems = ref([]);
-    const appTitle = ref('Todo App');
-
-    // methods
-    const fetchTodos = () => {
-      const result = [];
-      for (let i = 0; i < localStorage.length; i++) {
-          const todoItem = localStorage.key(i);
-          result.push(todoItem);
-      }
-      return result;
-    }
+    // component 해야할 일 중 세세한 구현은 별도의 파일로 분리하여 코드가 깔끔해짐
+    const { todoItems, addItem, fetchTodos } = useTodo();
 
     // 라이프 사이클 API와 같은 동작 - beforeCreate, created
-    console.log('setup called');
+    console.log('setup called')
 
     // 라이프 사이클 API - setup() 이후 호출
+    // 라이프 사이클 API를 사용하여 렌더링 전 데이터를 가져옴. 
+    // 데이터를 가져오는 동작은 useTodo 내부가 아닌 setup에서 처리함
     onBeforeMount(() => {
       console.log('onBeforeMount called')
-      todoItems.value = fetchTodos();
+      fetchTodos();
     })
 
     // 라이프 사이클 API - onBeforeMount() 이후 호출
@@ -53,17 +47,15 @@ export default {
     onUnmounted(() => {
       console.log('onUnmounted called')
     })
-
-    const addItem = (todo) => {
-      todoItems.value.push(todo);
-      localStorage.setItem(todo, todo);
-    }
-    const removeItem = (item, index) => {
-      todoItems.value.splice(index, 1);
-      localStorage.removeItem(item);
-    }
+  
     return {
-      todoItems, appTitle, addItem, removeItem
+      todoItems, addItem
+    }
+  },
+  methods: {
+    removeItem(item, index) {
+      this.todoItems.splice(index, 1);
+      localStorage.removeItem(item);
     }
   }
 }
